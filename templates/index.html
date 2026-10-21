@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" href="/static/logo.png">
     <title>Torrent Maker Pro</title>
     
     <script>
@@ -100,33 +101,11 @@
         .webhook-input { width: 100%; background: rgba(15, 23, 42, 0.5); border: 1px solid #334155; color: #e2e8f0; padding: 8px 12px; border-radius: 8px; box-sizing: border-box; font-family: monospace; font-size: 12px; margin-top: 5px; transition: border-color 0.3s; }
         .webhook-input:focus { outline: none; border-color: #3b82f6; }
 
-        /* Voorkom dat de vertaalbalk de layout naar beneden verschuift */
         body { top: 0px !important; position: static !important; }
-
-        /* Verberg alle varianten van Google's bovenbalk en iframes */
-        iframe.skiptranslate,
-        .goog-te-banner-frame,
-        .goog-te-banner-frame.skiptranslate,
-        .VIpgJd-ZVi9I-OR9ErZ-OEVmcd { 
-            display: none !important; 
-            visibility: hidden !important; 
-        }
-
-        /* Verberg hover pop-ups, tekstballonnen en markeringen */
-        #goog-gt-tt,
-        .goog-te-balloon-frame { 
-            display: none !important; 
-        }
-
-        .goog-text-highlight { 
-            background-color: transparent !important; 
-            box-shadow: none !important; 
-            border: none !important; 
-        }
-
-        #google_translate_element { 
-            display: none !important; 
-        }
+        iframe.skiptranslate, .goog-te-banner-frame, .goog-te-banner-frame.skiptranslate, .VIpgJd-ZVi9I-OR9ErZ-OEVmcd { display: none !important; visibility: hidden !important; }
+        #goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
+        .goog-text-highlight { background-color: transparent !important; box-shadow: none !important; border: none !important; }
+        #google_translate_element { display: none !important; }
     </style>
 </head>
 <body>
@@ -153,7 +132,7 @@
     <div class="header">
         <div class="title">
             <h1>Torrent Maker Pro</h1>
-            <p><span id="t_sub">Ontwikkeld door</span> <b>PandaBoyNL</b></p>
+            <p><span id="t_sub">Ontwikkeld door</span> <b>Panda-Creator</b></p>
         </div>
         <div style="display: flex; align-items: center; gap: 15px;">
             <div class="badge">
@@ -176,18 +155,12 @@
 
     <div class="grid">
         <div class="col">
-            <label><b id="t_step1">1. Verken Windows PC</b></label>
+            <label><b id="t_step1">1. Verken Unraid Server</b></label>
             <div class="server-browser">
                 <div class="browser-header">
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <button onclick="navigeerTerug()" title="Map omhoog">⬅️</button>
-                        
-                        <!-- NIEUW: Dropdown voor alle harde schijven -->
-                        <select id="schijfKiezer" onchange="laadMap(this.value)" style="background: rgba(15, 23, 42, 0.8); border: 1px solid #475569; color: #38bdf8; padding: 4px 8px; border-radius: 4px; font-weight: bold; cursor: pointer; outline: none; font-size: 12px;">
-                            <option value="C:/">C:/</option>
-                        </select>
-
-                        <span id="huidige-pad-weergave">C:/</span>
+                        <span id="huidige-pad-weergave">/data</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <label style="margin: 0; color: #cbd5e1; display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 11px;">
@@ -206,13 +179,8 @@
                 </label>
                 <span style="font-size: 13px; color: #94a3b8;" id="t_turbo">Turbo Modus (5 tegelijk bij >50)</span>
             </div>
-
-            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #334155;">
-                <label style="font-size: 12px; color: #94a3b8;"><b style="color: #e2e8f0;">💾 Opslagmap (.torrent bestanden)</b>:</label>
-                <input type="text" id="opslagMap" class="webhook-input" value="C:/Torrents" placeholder="Bijv. C:/Torrents" onchange="slaInstellingenOp()">
-            </div>
             
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #334155;">
                 <label style="font-size: 12px; color: #94a3b8;"><b style="color: #e2e8f0;">🔔 Discord Notificatie</b> (Webhook URL - Optioneel):</label>
                 <input type="text" id="discordWebhookUrl" class="webhook-input" placeholder="https://discord.com/api/webhooks/..." onchange="slaInstellingenOp()">
             </div>
@@ -230,13 +198,11 @@
         </div>
     </div>
 
-    <!-- UI voor de Wachtrij -->
     <div class="job-list" id="job-lijst"></div>
     <button class="btn" id="startBtn" style="display: none;"></button>
 </div>
 
 <script>
-    // --- STANDAARD FUNCTIES ---
     function toonMelding(titel, tekst) {
         document.getElementById('customAlertTitle').innerText = titel;
         document.getElementById('customAlertText').innerText = tekst;
@@ -246,24 +212,8 @@
     const talen = { "nl": "🇳🇱 Nederlands", "en": "🇺🇸 English", "de": "🇩🇪 Deutsch", "fr": "🇫🇷 Français", "es": "🇪🇸 Español", "it": "🇮🇹 Italiano", "pt": "🇵🇹 Português", "pl": "🇵🇱 Polski", "ru": "🇷🇺 Русский", "tr": "🇹🇷 Türkçe", "ar": "🇸🇦 العربية", "zh-CN": "🇨🇳 中文", "ja": "🇯🇵 日本語", "ko": "🇰🇷 한국어", "hi": "🇮🇳 हिन्दी" };
     function laadTalenMenu() { const lijst = document.getElementById('lang-lijst'); if (!lijst) return; lijst.innerHTML = ''; for (const [code, naam] of Object.entries(talen)) { const a = document.createElement('a'); a.href = "#"; a.innerText = naam; a.onclick = (e) => { e.preventDefault(); document.cookie = `googtrans=/nl/${code}; path=/`; document.cookie = `googtrans=/nl/${code}; domain=.${location.hostname}; path=/`; const sel = document.querySelector(".goog-te-combo"); if (sel) { sel.value = code; sel.dispatchEvent(new Event('change')); } else { window.location.reload(); } }; lijst.appendChild(a); } }
 
-    let huidigeMapPad = 'C:/';
+    let huidigeMapPad = '/data';
     window.huidigeBestandenLijst = []; 
-
-    // --- NIEUW: Automatisch de harde schijven ophalen ---
-    async function haalSchijvenOp() {
-        try {
-            const res = await fetch('/api/schijven');
-            const data = await res.json();
-            const kiezer = document.getElementById('schijfKiezer');
-            kiezer.innerHTML = ''; // Leeg de standaardwaarde
-            data.schijven.forEach(s => {
-                const opt = document.createElement('option');
-                opt.value = s;
-                opt.innerText = s;
-                kiezer.appendChild(opt);
-            });
-        } catch (e) {}
-    }
 
     async function laadMap(pad) {
         document.getElementById('browser-lijst').innerHTML = '<div style="text-align:center; padding:20px; color:#94a3b8;">Laden... ⏳</div>';
@@ -273,16 +223,8 @@
             if (data.success) {
                 huidigeMapPad = data.huidigeMap; 
                 document.getElementById('huidige-pad-weergave').innerText = huidigeMapPad;
-                
-                // Zorg dat de dropdown matcht met de huidige schijf
-                const rootDrive = huidigeMapPad.substring(0, 3).toUpperCase();
-                const kiezer = document.getElementById('schijfKiezer');
-                if (kiezer && kiezer.querySelector(`option[value="${rootDrive}"]`)) {
-                    kiezer.value = rootDrive;
-                }
-
                 tekenVerkenner(data.bestanden);
-            } else { toonMelding("Fout", data.error); if(pad !== 'C:/') laadMap('C:/'); }
+            } else { toonMelding("Fout", data.error); if(pad !== '/data') laadMap('/data'); }
         } catch (e) { document.getElementById('browser-lijst').innerHTML = '<div style="text-align:center; padding:20px; color:#ef4444;">Fout bij verbinden met server.</div>'; }
     }
 
@@ -304,12 +246,11 @@
     }
 
     function navigeerTerug() { 
-        if (huidigeMapPad.length <= 3) return; 
+        if (huidigeMapPad === '/data' || huidigeMapPad.length <= 5) return; 
         const delen = huidigeMapPad.replace(/\\/g, '/').split('/'); 
         delen.pop(); 
-        let nieuwPad = delen.join('/'); 
-        if(nieuwPad.length === 2 && nieuwPad.endsWith(':')) nieuwPad += '/'; 
-        laadMap(nieuwPad || 'C:/'); 
+        const nieuwPad = delen.join('/') || '/data'; 
+        laadMap(nieuwPad.startsWith('/data') ? nieuwPad : '/data'); 
     }
     
     function toggleSelecteerAlles() { const isChecked = document.getElementById('selectAllItems').checked; document.querySelectorAll('.item-checkbox').forEach(chk => chk.checked = isChecked); }
@@ -319,9 +260,6 @@
         checkboxes.forEach(chk => { const b = window.huidigeBestandenLijst[chk.value]; voegToeAanWachtrij(b.pad, b.naam, true); chk.checked = false; });
         document.getElementById('selectAllItems').checked = false;
     }
-
-
-    // --- 🔥 HET NIEUWE LIVE-SYNC SYSTEEM 🔥 ---
 
     let lokaleWachtrij = [];  
     let serverWachtrij = [];  
@@ -427,13 +365,12 @@
         const isTurboAan = document.getElementById('turboToggle').checked;
         const trackers = toonOudeLijst ? localStorage.getItem('mijnTorrentTrackers') : document.getElementById('trackers').value;
         const webhookUrl = document.getElementById('discordWebhookUrl').value.trim();
-        const opslagMap = document.getElementById('opslagMap').value.trim() || 'C:/Torrents';
 
         try {
             await fetch('/api/maak-batch', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ taken: lokaleWachtrij, trackers: trackers, webhookUrl: webhookUrl, turbo: isTurboAan, opslagMap: opslagMap })
+                body: JSON.stringify({ taken: lokaleWachtrij, trackers: trackers, webhookUrl: webhookUrl, turbo: isTurboAan })
             });
             lokaleWachtrij = []; 
             syncMetServer(); 
@@ -449,11 +386,8 @@
         } catch(e) {}
     }
 
-
-    // --- OVERIGE INSTELLINGEN (Webhook & Opslagmap & Trackers) ---
     function slaInstellingenOp() { 
         localStorage.setItem('gebruikerDiscordWebhook', document.getElementById('discordWebhookUrl').value.trim()); 
-        localStorage.setItem('gebruikerOpslagMap', document.getElementById('opslagMap').value.trim()); 
     }
     
     async function laadInstellingen() { 
@@ -470,9 +404,6 @@
                 veldWebhook.value = lokaalWebhook; 
             } 
         } catch (e) {} 
-        
-        const lokaalOpslag = localStorage.getItem('gebruikerOpslagMap');
-        if (lokaalOpslag) document.getElementById('opslagMap').value = lokaalOpslag;
     }
 
     const TRACKER_URLS = [
@@ -500,7 +431,6 @@
 
         try {
             let alleGehaaldeTrackers = new Set();
-            
             for (const url of TRACKER_URLS) {
                 try {
                     const antw = await fetch(url + '?t=' + Date.now());
@@ -534,9 +464,7 @@
     laadTalenMenu();
     laadInstellingen(); 
     controleerTrackers();
-    
-    // Haal de schijven op en laad daarna C:/
-    haalSchijvenOp().then(() => laadMap('C:/')); 
+    laadMap('/data'); 
     syncMetServer(); 
 </script>
 </body>
