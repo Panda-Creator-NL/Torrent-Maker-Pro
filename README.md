@@ -24,8 +24,8 @@ If you know of a better, more reliable tracker list that is automatically update
 ☕ Support & Buy Me a Coffee
 This project is developed with passion in my free time. If you enjoy using Torrent Maker Pro and want to help keep the app running, updated, and bug-free, please consider buying me a coffee!
 
-👉 Buy me a coffee via PayPal (PandaBoyNL)
-https://www.paypal.com/paypalme/PandaBoyNL
+👉 Buy me a coffee via PayPal (Panda-Creator-NL)
+https://www.paypal.com/paypalme/Panda-Creator-NL
 
 Thank you for your support! ❤️
 
@@ -37,4 +37,4 @@ docker run -d \
   -p 8080:8080 \
   -v /mnt/user/downloads:/data \
   -v /mnt/user/torrents:/storage \
-  pandaboynl/torrent-maker-pro:latest
+  pandacreatornl/torrent-maker-pro:latest
