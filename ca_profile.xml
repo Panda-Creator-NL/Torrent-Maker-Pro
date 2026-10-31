@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CommunityApplications>
   <Profile>
-    Welkom in de repository van Panda-Creator-NL! Hier vind je handige, snelle applicaties voor je Unraid server, waaronder Torrent Maker Pro en de gloednieuwe Ultimate Video Converter. Voor hulp, het melden van bugs of het aanvragen van nieuwe functies kun je gebruik maken van de contact knop in de apps of direct via Discord.
+    Welkom in de repository van Panda-Creator! Hier vind je handige, snelle applicaties voor je Unraid server, waaronder de populaire Torrent Maker Pro. Voor hulp, het melden van bugs of het aanvragen van nieuwe functies kun je gebruik maken van de contact knop in de app.
   </Profile>
-  <Icon>https://raw.githubusercontent.com/Panda-Creator-NL/Ultimate-Video-Converter-U.V.C.-/main/logo.png</Icon>
-  <WebPage>https://github.com/Panda-Creator-NL</WebPage>
+  <Icon>https://raw.githubusercontent.com/Panda-Creator-NL/torrent-maker-pro/main/logo.png</Icon>
+  <WebPage>https://github.com/Panda-Creator-NL/torrent-maker-pro</WebPage>
   
-  <Support>https://panda-creator-support-page.duckdns.org/</Support>
+  <!-- Optionele support links (verwijder de !-- en -- om ze te activeren) -->
+  <!-- <Forum>https://forums.unraid.net/topic/JOUW_TOPIC_HIER</Forum> -->
+  <!-- <Discord>https://discord.gg/JOUW_INVITE_CODE</Discord> -->
   
-  <DonateLink>https://paypal.me/PandaCreatorNL</DonateLink>
+  <DonateLink>https://www.paypal.com/paypalme/PandaCreatorNL</DonateLink>
   <DonateText>☕ Buy me a coffee (Support de developer!)</DonateText>
 </CommunityApplications>

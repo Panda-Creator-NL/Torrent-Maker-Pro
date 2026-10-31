@@ -8,9 +8,13 @@ const PORT = 8080;
 
 app.use(express.json({ limit: '50mb' }));
 
-// 1. Zorg dat de browser jouw index.html laadt
+// 1. Zorg dat de browser jouw index.html en logo laadt
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get(['/logo.png', '/favicon.ico'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'logo.png'));
 });
 
 // 2. API: Instellingen ophalen
